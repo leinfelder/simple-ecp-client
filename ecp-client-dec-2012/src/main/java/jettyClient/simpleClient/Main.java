@@ -15,6 +15,7 @@
  * ***************************************************************************/
 package jettyClient.simpleClient;
 
+import java.io.Console;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,6 +62,30 @@ public class Main {
 
 		// Parse command line parameters into configuration info
 		ClientOptions options = Parameters.setOptions(args);
+		
+		// ------- LOGIN -----------
+		// Ask the user for login information. Does not work in
+		// an IDE.
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=122429
+		Console console = System.console();
+		if (console != null) {
+			// ask for username/password if we don't have them in the options
+			String principal = options.getPrincipal();
+			String credentials = options.getCredentials();
+			if (principal == null) {
+				principal = console.readLine("Please enter username: ");
+			}
+			if (credentials == null) {
+				credentials = new String(
+					console.readPassword("Please enter password: "));
+			}
+			System.out.println("");
+			
+			// [re]set what we got
+			options.setPrincipal(principal);
+			options.setCredentials(credentials);
+		}
+		// -------------------
 
 		if (options != null) {
 

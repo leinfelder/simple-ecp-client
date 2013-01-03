@@ -22,6 +22,9 @@ public class ClientOptions {
 	
 	private String idpID = "";
 	private URL spEndpoint = null;
+	
+	private String principal = null;
+	private String credentials = null;
 
 	private boolean verbose;
 	private URL spURL;
@@ -30,6 +33,20 @@ public class ClientOptions {
 	private URL idpUrl;
 
 	/*Getters and setters */
+	
+	public String getPrincipal() {
+		return principal;
+	}
+	public void setPrincipal(String principal) {
+		this.principal = principal;
+	}
+	
+	public String getCredentials() {
+		return credentials;
+	}
+	public void setCredentials(String credentials) {
+		this.credentials = credentials;
+	}
 	
 	public URL getSpURL() {
 		return spURL;

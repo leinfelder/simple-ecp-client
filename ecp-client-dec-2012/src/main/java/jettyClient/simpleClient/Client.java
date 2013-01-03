@@ -19,6 +19,7 @@ package jettyClient.simpleClient;
 import java.net.URL;
 
 import jettyClient.EnvelopeHandling.EnvelopeCreator;
+import jettyClient.paosClient.ExchangeContent;
 import jettyClient.paosClient.PaosClient;
 import jettyClient.parser.ParseHelper;
 
@@ -41,7 +42,7 @@ public class Client {
 	 * @param spURL
 	 */
 	
-	public void accessResource(ClientOptions options, IDPEntry idpEntry) {
+	public ExchangeContent accessResource(ClientOptions options, IDPEntry idpEntry) {
 
 		HttpClient httpClient = getClient();
 
@@ -57,7 +58,7 @@ public class Client {
 
 			Connections connections = new Connections();
 
-			Body assertionResponse = connections.accessResource(options,
+			ExchangeContent assertionResponse = connections.accessResource(options,
 					idpEntry, httpClient);
 
 			if (assertionResponse != null) {
@@ -70,7 +71,11 @@ public class Client {
 
 				// ---------------- CHANGES END -----------------
 			}
+			
+			return assertionResponse;
 		}
+		
+		return null;
 	}
 
 	/**

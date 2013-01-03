@@ -19,6 +19,7 @@ package jettyClient.parser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -54,10 +55,10 @@ public class ValidateXML {
 		
 		Source xmlFile = new StreamSource(responseStream);		
 		Schema schema = null;
+		InputStream schemaStream = ValidateXML.class.getResourceAsStream(schemaFilePath);
 		
 		try {
-			schema = SchemaBuilder.buildSchema(SchemaLanguage.XML, new File(
-					schemaFilePath));
+			schema = SchemaBuilder.buildSchema(SchemaLanguage.XML, schemaStream);
 		} catch (SAXException e) {
 			logger.debug("Invalid schema given.");
 			return false;

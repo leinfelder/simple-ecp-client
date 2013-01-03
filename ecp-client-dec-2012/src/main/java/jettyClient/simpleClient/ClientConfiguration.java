@@ -29,11 +29,11 @@ public class ClientConfiguration {
 	public static final String metadataFolder = "resources/metadata";
 	
 	/* Schema files */
-	public static final String soapEnvelopeSchemaLocation = "resources/schema/soap-envelope.xsd";
-	public static final String metadataSchemaLocation = "resources/schema/saml-schema-metadata-2.0.xsd";
+	public static final String soapEnvelopeSchemaLocation = "/schema/soap-envelope.xsd";
+	public static final String metadataSchemaLocation = "/schema/saml-schema-metadata-2.0.xsd";
 	
 	// TEST (validates assertion XML)
-	public static final String assertionSchemaLocation = "resources/schema/saml-schema-assertion-2.0.xsd";
+	public static final String assertionSchemaLocation = "/schema/saml-schema-assertion-2.0.xsd";
 	
 	/* Logger name */
 	public static final String logger = "defaultLogger";

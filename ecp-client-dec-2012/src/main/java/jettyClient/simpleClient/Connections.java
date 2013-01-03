@@ -68,7 +68,7 @@ public class Connections {
 	 * @throws Exception
 	 */
 
-	public Body accessResource(ClientOptions options, IDPEntry idpEntry,
+	public ExchangeContent accessResource(ClientOptions options, IDPEntry idpEntry,
 			HttpClient httpClient) {
 
 		PaosClient paosClient = null;
@@ -95,7 +95,7 @@ public class Connections {
 
 			// Get the SOAP Envelope Body from the IdP that contains the
 			// response or a soap fault.
-			Body body = getResponseBody(spContent, idpEntry, paosClient);
+			Body body = getResponseBody(spContent, idpEntry, paosClient, options);
 
 			if (body != null) {
 				if (verbose) {
@@ -139,7 +139,7 @@ public class Connections {
 			}
 
 			// This return is unnecessary in a normal SP exchange.
-			return body;
+			return assertionContent;
 		}
 		logger.debug("The SP did not respond to the GET request.");
 		return null; // :(
@@ -159,7 +159,7 @@ public class Connections {
 	 * @return
 	 */
 	private Body getResponseBody(ExchangeContent spContent, IDPEntry idpEntry,
-			PaosClient paosClient) {
+			PaosClient paosClient, ClientOptions options) {
 
 		String spAssertionConsumerURL = "";
 		ExchangeContent idpContent = null;
@@ -189,7 +189,7 @@ public class Connections {
 				.getResponseParts());
 
 		// Get the Assertion from the IdP (send AuthnRequest to IdP)
-		idpContent = getAssertion(paosClient, idpEnvelope, idpURL);
+		idpContent = getAssertion(paosClient, idpEnvelope, idpURL, options);
 
 		// If the IdP sent back anything at all as a response:
 		if (idpContent != null) {
@@ -242,12 +242,9 @@ public class Connections {
 	 * @return
 	 */
 	public ExchangeContent getAssertion(PaosClient paosClient,
-			Envelope idpEnvelope, URL idpURL) {
+			Envelope idpEnvelope, URL idpURL, ClientOptions options) {
 
 		ExchangeContent idpContent = null;
-
-		String principal = "";
-		String credentials = "";
 
 		if (verbose) {
 			System.out.println("Forwarding Authnrequest to "
@@ -255,22 +252,9 @@ public class Connections {
 			System.out.println(ParseHelper.anythingToXMLString(idpEnvelope));
 		}
 
-		Console console = null;
-
-		console = System.console();
-
-		// ------- LOGIN -----------
-		// Ask the user for login information. Does not work in
-		// an IDE.
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=122429
-		if (console != null) {
-			principal = console.readLine("Please enter username: ");
-			credentials = new String(
-					console.readPassword("Please enter password: "));
-			System.out.println("");
-		}
-		// -------------------
-
+		String principal = options.getPrincipal();
+		String credentials = options.getCredentials();
+		
 		// Set the login credentials at IdP exchangecontent.
 		idpContent = new ExchangeContent(idpEnvelope, createRealmResolver(
 				principal, credentials));
@@ -389,14 +373,15 @@ public class Connections {
 	// This could be made to default to a) the same port the SP used b)
 	// something more standard as in 443 or 8443 c) something else
 
-	private URL getURL(String string) {
+	public static URL getURL(String string) {
 		URL url = null;
 
 		try {
 			url = new URL(string);
 			if (url.getPort() == -1) {
-				logger.debug("Missing port number in URL.");
-				throw new MalformedURLException();
+				logger.debug("Missing port number in URL, using default.");
+				url = new URL(url.getProtocol(), url.getHost(), 443, url.getFile());
+				//throw new MalformedURLException();
 			}
 		} catch (MalformedURLException e) {
 			url = null;

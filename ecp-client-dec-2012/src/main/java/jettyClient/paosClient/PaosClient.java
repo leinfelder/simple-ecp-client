@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 
 public class PaosClient {
 
-	private final HttpClient httpClient;
+	protected HttpClient httpClient;
 
 	// Get the client logger
 	private final static Logger logger = LoggerFactory
@@ -102,6 +102,9 @@ public class PaosClient {
 
 		// Create a new POST exchange.
 		ClientExchange clientExchange = getPOSTExchange(endpoint);
+		
+		// BRL 2013 -- needs to be the PAOS type
+		clientExchange.addRequestHeader("Content-Type", "application/vnd.paos+xml");
 
 		// Write the Envelope to a ByteArrayOutputStream
 		ByteArrayOutputStream stream = MessageParser.envelopeToStream(content
@@ -171,7 +174,8 @@ public class PaosClient {
 		responseBytes = clientExchange.getResponseContentBytes();
 
 		// Check response status (200 = OK)
-		if (clientExchange.getResponseStatus() == 200) {
+		// BRL 2013 - needs to get cookie from 302
+		if (clientExchange.getResponseStatus() == 200 || clientExchange.getResponseStatus() == 302) {
 			// If the response contains an envelope...
 
 			logger.info("\nReceived from "
@@ -233,11 +237,12 @@ public class PaosClient {
 	 * @param uri
 	 * @return
 	 */
-	private ClientExchange getPOSTExchange(URL url) {
+	protected ClientExchange getPOSTExchange(URL url) {
 
 		ClientExchange exchange = null;
 
-		exchange = new ClientExchange();
+		// BRL 2013, needs to cache response headers (cookies)
+		exchange = new ClientExchange(true);
 		exchange.setMethod(HttpMethods.POST);
 		exchange.setScheme(HttpSchemes.HTTPS_BUFFER); // Enable HTTPS
 
@@ -304,7 +309,7 @@ public class PaosClient {
 	 * @throws InterruptedException
 	 * @throws UnsupportedEncodingException
 	 */
-	private ClientExchange exchangeContent(HttpClient httpClient,
+	protected ClientExchange exchangeContent(HttpClient httpClient,
 			ClientExchange clientExchange) {
 
 		// Send clientExchange

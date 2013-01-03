@@ -18,6 +18,8 @@ package jettyClient.parser;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+
 import javax.xml.namespace.QName;
 import javax.xml.validation.Schema;
 
@@ -148,15 +150,15 @@ public class ParseHelper {
 
 		BasicParserPool pool = null;
 		Schema schema = null;
-		File file = new File(schemaFilePath);
-
-		if (file.exists()) {
+		InputStream schemaStream = BasicParserPool.class.getResourceAsStream(schemaFilePath);
+		
+		if (schemaStream != null) {
 
 			try {
 				schema = SchemaBuilder.buildSchema(SchemaLanguage.XML,
-						file);
+						schemaStream);
 			} catch (SAXException e) {
-				logger.debug("SAXException when parsing file " +schemaFilePath);
+				logger.debug("SAXException when parsing file " + schemaFilePath);
 			}
 
 			// Configure pool and set schema as given in parameter.
@@ -172,7 +174,7 @@ public class ParseHelper {
 			}
 
 		} else {
-			logger.debug("File " +schemaFilePath +" not found.");	
+			logger.debug("File " + schemaFilePath + " not found.");	
 		}
 		return pool;
 	}

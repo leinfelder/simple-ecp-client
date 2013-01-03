@@ -14,7 +14,8 @@
                 <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
                 <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SSORedirect/metaAlias/idp"/>
                 <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SSOPOST/metaAlias/idp"/>
-                <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SSOSoap/metaAlias/idp"/>
+                <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://idp.protectnetwork.org:443/protectnetwork-idp/profile/SAML2/SOAP/ECP"/>
+                <!-- <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SSOSoap/metaAlias/idp"/>-->
                 <NameIDMappingService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/NIMSoap/metaAlias/idp"/>
                 <AssertionIDRequestService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/AIDReqSoap/IDPRole/metaAlias/idp"/>
                 <AssertionIDRequestService Binding="urn:oasis:names:tc:SAML:2.0:bindings:URI" Location="http://localhost:8080/opensso/AIDReqUri/IDPRole/metaAlias/idp"/>

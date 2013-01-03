@@ -45,9 +45,12 @@ public class Parameters {
 	private static String help = "help";
 	private static String idpID = "idp";
 	private static String spEndpoint = "endpoint";
+	private static String principal = "principal";
+	private static String credentials = "credentials";
 
 	// Defines the command for starting the client.
 	private static String usage = "java -jar client.jar <SP endpoint> [options]";
+	private static String exampleUsage = "Example: java -jar simpleClient.jar  http://localhost:8443/initiateECP some-shibboleth-idp-id";
 
 	/**
 	 * Stores the given command line arguments for the client to use.
@@ -135,8 +138,7 @@ public class Parameters {
 
 		} else {
 			System.out.println("SP endpoint missing. Usage: " + usage);
-			System.out
-					.println("Example: java -jar simpleClient.jar  http://localhost:8443/initiateECP some-shibboleth-idp-id");
+			System.out.println(exampleUsage);
 		}
 
 		// Prints help if the SP URL has failed.
@@ -145,8 +147,7 @@ public class Parameters {
 		} else {
 			System.out.println("Invalid SP URL.");
 			System.out.println("Usage: " + usage);
-			System.out
-					.println("Example: java -jar simpleClient.jar  http://localhost:8443/initiateECP some-shibboleth-idp-id");
+			System.out.println(exampleUsage);
 			System.exit(1);
 		}
 
@@ -157,11 +158,35 @@ public class Parameters {
 		} else {
 			System.out.println("No IdP id specified.");
 			System.out.println("Usage: " + usage);
-			System.out
-					.println("Example: java -jar simpleClient.jar  http://localhost:8443/initiateECP some-shibboleth-idp-id");
+			System.out.println(exampleUsage);
+			System.exit(1);
+		}		
+		
+		// Save the username
+		if (line.hasOption(principal)) {
+			String value = line.getOptionValue(principal);
+			options.setPrincipal(value);
+			logger.debug("Using " + principal + "=" + value);
+		} else {
+			System.out.println(principal + " not specified.");
+			System.out.println("Usage: " + usage);
+			System.out.println(exampleUsage);
 			System.exit(1);
 		}		
 
+		// Save the password
+		if (line.hasOption(credentials)) {
+			String value = line.getOptionValue(credentials);
+			options.setCredentials(value);
+			// don't print passwords!
+			logger.debug("Using " + credentials + "=" + "xxx");
+		} else {
+			System.out.println(credentials + " not specified.");
+			System.out.println("Usage: " + usage);
+			System.out.println(exampleUsage);
+			System.exit(1);
+		}
+				
 		// Verbose
 		if (line.hasOption(verbose)) {
 			options.setVerbose(true);
@@ -196,6 +221,8 @@ public class Parameters {
 		options.addOption(idpID, true, "The IdP ID.");
 		options.addOption("e", spEndpoint, true,
 				"The SP endpoint URL. Given as URL:PORT/URI.");
+		options.addOption("u", principal, true, "The principal or username");
+		options.addOption("p", credentials, true, "The credentials or password");
 
 		// Options that MUST NOT have an argument.
 		options.addOption("v", verbose, false,
