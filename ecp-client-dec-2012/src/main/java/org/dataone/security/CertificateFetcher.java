@@ -36,6 +36,11 @@ public class CertificateFetcher extends PaosClient {
 		// Register PAOS request header builder + marshaller.
 		ObjectProviderRegisterer.register();
 	}
+
+	/**
+	 * For exercising special features on the CILogon service provider
+	 */
+	private String skin = null;
 	
 	/**
 	 * Default constructor uses the default httpclient
@@ -95,6 +100,14 @@ public class CertificateFetcher extends PaosClient {
 		return null;
 	}
 
+	public String getSkin() {
+		return skin;
+	}
+
+	public void setSkin(String skin) {
+		this.skin = skin;
+	}
+
 	/**
 	 * Create and configure a Jetty Httpclient.
 	 * 
@@ -142,12 +155,16 @@ public class CertificateFetcher extends PaosClient {
 		// this value can be anything, but must match the CSRF cookie value
 		String csrfValue = "fetchMyCertificate";
 		
-		String queryString = "submit=certreq&certlifetime=12&CSRF=" + csrfValue + "&certreq=" + csr;
+		StringBuffer queryString = new StringBuffer();
+		queryString.append("submit=certreq&certlifetime=12&CSRF=" + csrfValue + "&certreq=" + csr);
+		if (skin  != null) {
+			queryString.append("&cilogon_vo=" + skin);
+		}
 		URL spURL = options.getSpURL();
 		//URL debugSpURL = Connections.getURL("https://ecp.cilogon.org/secure/env3.php");
 		//spURL = debugSpURL;
 		CertificateFetcher certFetcher = new CertificateFetcher(httpClient);
-		String resultString = certFetcher.sendPOST(spURL, certContent, queryString, csrfValue);
+		String resultString = certFetcher.sendPOST(spURL, certContent, queryString.toString(), csrfValue);
 		//System.out.println(resultString);
 		
 		// save to PEM file with private key
@@ -236,6 +253,10 @@ public class CertificateFetcher extends PaosClient {
 		String idpUrl = args[1]; // "https://idp.protectnetwork.org/protectnetwork-idp/profile/SAML2/SOAP/ECP";
 		String username = args[2]; //"leinfelder";
 		String password = args[3]; //"";
+		if (args.length > 4) {
+			String skin = args[4];
+			cf.setSkin(skin);
+		}
 		cf.authenticate(spUrl, idpUrl, username, password);
 	}
 
