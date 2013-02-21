@@ -1,17 +1,20 @@
 package org.dataone.security;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.StringWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.Signature;
-import sun.security.pkcs.PKCS10;
-import sun.security.x509.X500Name;
-import sun.security.x509.X500Signer;
+
+import javax.security.auth.x500.X500Principal;
+
+import org.bouncycastle.asn1.DERSet;
+import org.bouncycastle.jce.PKCS10CertificationRequest;
+import org.bouncycastle.openssl.PEMWriter;
 
 /**
  * This class generates PKCS10 certificate signing request 
@@ -26,6 +29,9 @@ public class CSRGenerator {
 	private KeyPairGenerator keyGen = null;
 	
 	public CSRGenerator() {
+		// use Bouncy Castle
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
 		try {
 			keyGen = KeyPairGenerator.getInstance("RSA");
 		} catch (NoSuchAlgorithmException e) {
@@ -43,40 +49,38 @@ public class CSRGenerator {
 		return new String(csr, "UTF-8");
 	}
 
+	
 	/**
-	 *  *  * 
-	 * @param CN  Common Name, is X.509 speak for the name that
+	 * 
+	 * @param CN Common Name, is X.509 speak for the name that
 	 * distinguishes the Certificate best, and ties it to your
-	 * Organization  
-	 * @param OU  Organizational unit  
-	 * @param O Organization NAME  
+	 * Organization
+	 * @param OU Organizational unit
+	 * @param O Organization NAME
 	 * @param L Location  
 	 * @param S  State 
-	 * @param C  Country 
-	 * @return  
-	 * @throws Exception  
+	 * @param C Country 
+	 * @return byte array of the CSR
+	 * @throws Exception
 	 */
 	private byte[] generatePKCS10(String CN, String OU, String O,
 			String L, String S, String C) throws Exception {
 		// generate PKCS10 certificate request
 		String sigAlg = "MD5WithRSA";
-		PKCS10 pkcs10 = new PKCS10(publicKey);
+		
 		Signature signature = Signature.getInstance(sigAlg);
 		signature.initSign(privateKey);
 		// common, orgUnit, org, locality, state, country
-		X500Name x500Name = new X500Name(CN, OU, O, L, S, C);
-		pkcs10.encodeAndSign(new X500Signer(signature, x500Name));
-		ByteArrayOutputStream bs = new ByteArrayOutputStream();
-		PrintStream ps = new PrintStream(bs, false, "UTF-8");
-		pkcs10.print(ps);
-		byte[] c = bs.toByteArray();
-		try {
-			if (ps != null)
-				ps.close();
-			if (bs != null)
-				bs.close();
-		} catch (Throwable th) {
-		}
+		X500Principal principal = new X500Principal("CN=" + CN +", OU=" + OU + ", O=" + O + ", L=" + L + ", S=" + S + ", C=" + C);  
+        
+		DERSet asn1Set = new DERSet();
+		
+        PKCS10CertificationRequest kpGen = new PKCS10CertificationRequest(sigAlg, principal, publicKey, asn1Set, privateKey);
+        StringWriter sw = new StringWriter();
+        PEMWriter pemWriter = new PEMWriter(sw);
+        pemWriter.writeObject(kpGen);
+        pemWriter.close();
+        byte[] c = sw.toString().getBytes("UTF-8");
 		return c;
 	}
 
