@@ -21,13 +21,14 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.saml.saml2.core.IDPEntry;
-import org.opensaml.saml.saml2.core.IDPList;
-import org.opensaml.saml.saml2.ecp.Response;
-import org.opensaml.soap.soap11.Header;
-import org.opensaml.soap.wssecurity.BinarySecurityToken;
-import org.opensaml.soap.wssecurity.Security;
+import org.opensaml.saml2.core.IDPEntry;
+import org.opensaml.saml2.core.IDPList;
+import org.opensaml.saml2.ecp.Response;
+import org.opensaml.ws.soap.soap11.Header;
+import org.opensaml.ws.wssecurity.BinarySecurityToken;
+import org.opensaml.ws.wssecurity.Security;
+import org.opensaml.xml.XMLObject;
+
 
 import ecp.liberty.paos.Request;
 
@@ -119,8 +120,8 @@ public class ExtractField {
 			if (xmlObject.getElementQName() != null)
 				if (xmlObject
 						.getElementQName()
-						.equals(org.opensaml.saml.saml2.ecp.Request.DEFAULT_ELEMENT_NAME))
-					return ((org.opensaml.saml.saml2.ecp.Request) xmlObject)
+						.equals(org.opensaml.saml2.ecp.Request.DEFAULT_ELEMENT_NAME))
+					return ((org.opensaml.saml2.ecp.Request) xmlObject)
 							.getIDPList();
 		}
 		return null;

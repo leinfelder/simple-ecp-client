@@ -21,7 +21,7 @@ import java.util.HashMap;
 import jettyClient.parser.MetadataParser;
 import jettyClient.simpleClient.ClientConfiguration;
 
-import org.opensaml.saml.saml2.core.IDPEntry;
+import org.opensaml.saml2.core.IDPEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

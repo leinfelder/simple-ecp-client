@@ -22,10 +22,10 @@ import java.util.List;
 import jettyClient.metadata.LoadFile;
 import jettyClient.simpleClient.ClientConfiguration;
 
-import org.opensaml.saml.common.xml.SAMLConstants;
-import org.opensaml.saml.saml2.core.IDPEntry;
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-import org.opensaml.saml.saml2.metadata.SingleSignOnService;
+import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.saml2.core.IDPEntry;
+import org.opensaml.saml2.metadata.EntityDescriptor;
+import org.opensaml.saml2.metadata.SingleSignOnService;
 import org.w3c.dom.Element;
 
 public class MetadataParser {

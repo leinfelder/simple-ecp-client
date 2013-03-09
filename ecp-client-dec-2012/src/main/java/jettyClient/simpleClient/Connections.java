@@ -32,13 +32,14 @@ import org.eclipse.jetty.client.security.Realm;
 import org.eclipse.jetty.client.security.RealmResolver;
 import org.eclipse.jetty.client.security.SimpleRealmResolver;
 
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.saml.saml2.core.IDPEntry;
-import org.opensaml.saml.saml2.core.IDPList;
-import org.opensaml.saml.saml2.ecp.Request;
-import org.opensaml.soap.soap11.Body;
-import org.opensaml.soap.soap11.Envelope;
-import org.opensaml.soap.soap11.Header;
+import org.opensaml.saml2.core.IDPEntry;
+import org.opensaml.saml2.core.IDPList;
+import org.opensaml.saml2.ecp.Request;
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.Header;
+import org.opensaml.xml.XMLObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -19,19 +19,27 @@ import org.bouncycastle.openssl.PEMWriter;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.http.HttpHeaders;
 import org.eclipse.jetty.io.ByteArrayBuffer;
-import org.opensaml.core.config.InitializationException;
-import org.opensaml.core.config.InitializationService;
-import org.opensaml.saml.saml2.core.IDPEntry;
+import org.opensaml.DefaultBootstrap;
+//import org.opensaml.core.config.InitializationException;
+//import org.opensaml.core.config.InitializationService;
+import org.opensaml.saml2.core.IDPEntry;
+import org.opensaml.xml.ConfigurationException;
 
 public class CertificateFetcher extends PaosClient {
 	
 	static {
 		// Initialize and configure OpenSAML (Builderfactory, Marshaller...)
 		try {
-			InitializationService.initialize();
-		} catch (InitializationException e) {
+			DefaultBootstrap.bootstrap();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		try {
+//			InitializationService.initialize();
+//		} catch (InitializationException e) {
+//			e.printStackTrace();
+//		}
 
 		// Register PAOS request header builder + marshaller.
 		ObjectProviderRegisterer.register();

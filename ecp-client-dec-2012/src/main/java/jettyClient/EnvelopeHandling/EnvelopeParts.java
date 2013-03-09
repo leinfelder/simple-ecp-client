@@ -15,9 +15,10 @@
  * ***************************************************************************/
 package jettyClient.EnvelopeHandling;
 
-import org.opensaml.soap.soap11.Body;
-import org.opensaml.soap.soap11.Envelope;
-import org.opensaml.soap.soap11.Header;
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.Header;
+
 
 // Could store the content as text, but then one would need separate
 // schemas in order to parse the xml back to an XMLObject.

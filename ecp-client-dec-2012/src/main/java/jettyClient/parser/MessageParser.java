@@ -20,14 +20,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import jettyClient.EnvelopeHandling.EnvelopeParts;
 import jettyClient.simpleClient.ClientConfiguration;
-import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.core.xml.io.Marshaller;
-import org.opensaml.core.xml.io.MarshallingException;
-import org.opensaml.soap.soap11.Body;
-import org.opensaml.soap.soap11.Envelope;
-import org.opensaml.soap.soap11.Header;
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.Header;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.io.Marshaller;
+import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.util.XMLHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -157,7 +157,7 @@ public class MessageParser {
 	public static ByteArrayOutputStream envelopeToStream(Envelope envelope) {
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		SerializeSupport.writeNode(ParseHelper.marshall(envelope), stream);
+		XMLHelper.writeNode(ParseHelper.marshall(envelope), stream);
 
 		return stream;
 	}
@@ -173,9 +173,9 @@ public class MessageParser {
 	public static ByteArrayOutputStream envelopeToStreamV2(Envelope envelope) {
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		SerializeSupport.writeNode(ParseHelper.marshall(envelope), stream);
+		XMLHelper.writeNode(ParseHelper.marshall(envelope), stream);
 
-		Marshaller marshaller = XMLObjectProviderRegistrySupport
+		Marshaller marshaller = Configuration
 				.getMarshallerFactory().getMarshallers()
 				.get(Envelope.DEFAULT_ELEMENT_NAME);
 		Element element = null;

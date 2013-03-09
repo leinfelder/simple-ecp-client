@@ -25,21 +25,19 @@ import javax.xml.validation.Schema;
 
 import jettyClient.simpleClient.ClientConfiguration;
 
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.xml.BasicParserPool;
-import net.shibboleth.utilities.java.support.xml.SchemaBuilder;
-import net.shibboleth.utilities.java.support.xml.SerializeSupport;
-import net.shibboleth.utilities.java.support.xml.XMLParserException;
-import net.shibboleth.utilities.java.support.xml.SchemaBuilder.SchemaLanguage;
-
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.core.xml.io.Marshaller;
-import org.opensaml.core.xml.io.MarshallerFactory;
-import org.opensaml.core.xml.io.MarshallingException;
-import org.opensaml.core.xml.io.Unmarshaller;
-import org.opensaml.core.xml.io.UnmarshallerFactory;
-import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.io.Marshaller;
+import org.opensaml.xml.io.MarshallerFactory;
+import org.opensaml.xml.io.MarshallingException;
+import org.opensaml.xml.io.Unmarshaller;
+import org.opensaml.xml.io.UnmarshallerFactory;
+import org.opensaml.xml.io.UnmarshallingException;
+import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.xml.parse.XMLParserException;
+import org.opensaml.xml.schema.SchemaBuilder;
+import org.opensaml.xml.schema.SchemaBuilder.SchemaLanguage;
+import org.opensaml.xml.util.XMLHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -66,7 +64,7 @@ public class ParseHelper {
 		
 		QName defaultElementName = getDefaultElementName(element);
 
-		UnmarshallerFactory unmarshallerFactory = XMLObjectProviderRegistrySupport
+		UnmarshallerFactory unmarshallerFactory = Configuration
 				.getUnmarshallerFactory();
 
 		Unmarshaller unmarshaller = unmarshallerFactory
@@ -113,7 +111,7 @@ public class ParseHelper {
 
 	public static String anythingToXMLString(XMLObject object) {
 		Element element = marshall(object);
-		return SerializeSupport.prettyPrintXML(element);
+		return XMLHelper.prettyPrintXML(element);
 	}
 
 	/**
@@ -124,7 +122,7 @@ public class ParseHelper {
 	 */
 	public static Element marshall(XMLObject object) {
 
-		MarshallerFactory MarshallerFactory = XMLObjectProviderRegistrySupport
+		MarshallerFactory MarshallerFactory = Configuration
 				.getMarshallerFactory();
 
 		Marshaller marshaller = MarshallerFactory.getMarshaller(object
@@ -167,11 +165,11 @@ public class ParseHelper {
 			pool.setNamespaceAware(true);
 			pool.setSchema(schema);
 
-			try {
-				pool.initialize(); // initialize
-			} catch (ComponentInitializationException e) {
-				logger.debug("Could not initialize parserpool using schema " +schema +".");
-			}
+//			try {
+//				pool.initialize(); // initialize
+//			} catch (ComponentInitializationException e) {
+//				logger.debug("Could not initialize parserpool using schema " +schema +".");
+//			}
 
 		} else {
 			logger.debug("File " + schemaFilePath + " not found.");	
@@ -217,7 +215,7 @@ public class ParseHelper {
 	 * @return
 	 */
 	public static XMLObject buildObject(QName defaultElementName) {
-		return XMLObjectProviderRegistrySupport.getBuilderFactory()
+		return Configuration.getBuilderFactory()
 				.getBuilder(defaultElementName).buildObject(defaultElementName);
 	}
 

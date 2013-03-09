@@ -23,9 +23,9 @@ import java.util.Iterator;
 import jettyClient.metadata.IdpMetadata;
 import jettyClient.objectProviderRegisterer.ObjectProviderRegisterer;
 
-import org.opensaml.core.config.InitializationException;
-import org.opensaml.core.config.InitializationService;
-import org.opensaml.saml.saml2.core.IDPEntry;
+import org.opensaml.DefaultBootstrap;
+import org.opensaml.saml2.core.IDPEntry;
+import org.opensaml.xml.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,10 +49,17 @@ public class Main {
 
 		// Initialize and configure OpenSAML (Builderfactory, Marshaller...)
 		try {
-			InitializationService.initialize();
-		} catch (InitializationException e) {
-			logger.debug("Could not initialize OpenSAML.\n" + e);
+			DefaultBootstrap.bootstrap();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		// for openSAML 3.0
+//		try {
+//			InitializationService.initialize();
+//		} catch (InitializationException e) {
+//			logger.debug("Could not initialize OpenSAML.\n" + e);
+//		}
 
 		// Register PAOS request header builder + marshaller.
 		ObjectProviderRegisterer.register();

@@ -23,7 +23,7 @@ import jettyClient.simpleClient.ClientConfiguration;
 
 import org.eclipse.jetty.client.security.RealmResolver;
 import org.eclipse.jetty.http.HttpFields;
-import org.opensaml.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.Envelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

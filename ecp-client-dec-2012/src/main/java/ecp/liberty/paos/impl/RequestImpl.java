@@ -18,9 +18,11 @@ package ecp.liberty.paos.impl;
 
 import java.util.List;
 
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.core.xml.schema.XSBooleanValue;
-import org.opensaml.saml.common.AbstractSAMLObject;
+import org.opensaml.common.impl.AbstractSAMLObject;
+import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.schema.XSBooleanValue;
+
+
 import ecp.liberty.paos.Request;
 
 public class RequestImpl extends AbstractSAMLObject implements Request {

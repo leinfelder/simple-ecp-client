@@ -35,9 +35,10 @@ import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.http.HttpSchemes;
 import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.io.ByteArrayBuffer;
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.soap.soap11.Body;
-import org.opensaml.soap.soap11.Fault;
+
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Fault;
+import org.opensaml.xml.XMLObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

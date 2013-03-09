@@ -16,8 +16,9 @@
 
 package ecp.liberty.paos.impl;
 
-import org.opensaml.saml.common.AbstractSAMLObjectBuilder;
-import org.opensaml.saml.common.xml.SAMLConstants;
+
+import org.opensaml.common.impl.AbstractSAMLObjectBuilder;
+import org.opensaml.common.xml.SAMLConstants;
 
 import ecp.liberty.paos.Response;
 

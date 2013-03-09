@@ -24,9 +24,9 @@ import jettyClient.paosClient.PaosClient;
 import jettyClient.parser.ParseHelper;
 
 import org.eclipse.jetty.client.HttpClient;
-import org.opensaml.saml.saml2.core.IDPEntry;
-import org.opensaml.soap.soap11.Body;
-import org.opensaml.soap.soap11.Envelope;
+import org.opensaml.saml2.core.IDPEntry;
+import org.opensaml.ws.soap.soap11.Body;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

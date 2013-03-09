@@ -28,9 +28,9 @@ import javax.xml.validation.Validator;
 
 import jettyClient.simpleClient.ClientConfiguration;
 
-import net.shibboleth.utilities.java.support.xml.SchemaBuilder;
-import net.shibboleth.utilities.java.support.xml.SchemaBuilder.SchemaLanguage;
 
+import org.opensaml.xml.schema.SchemaBuilder;
+import org.opensaml.xml.schema.SchemaBuilder.SchemaLanguage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;

@@ -20,10 +20,10 @@ import javax.xml.namespace.QName;
 
 import jettyClient.simpleClient.ClientConfiguration;
 
-import org.opensaml.core.xml.XMLObjectBuilder;
-import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
-import org.opensaml.core.xml.io.Marshaller;
-import org.opensaml.core.xml.io.Unmarshaller;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.XMLObjectBuilder;
+import org.opensaml.xml.io.Marshaller;
+import org.opensaml.xml.io.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +65,7 @@ public class ObjectProviderRegisterer {
 	private static void registerObjectProvider(QName defaultElementName,
 			XMLObjectBuilder builder, Marshaller marshaller,
 			Unmarshaller unmarshaller) {
-		XMLObjectProviderRegistrySupport.registerObjectProvider(
+		Configuration.registerObjectProvider(
 				defaultElementName, builder, marshaller, unmarshaller);
 
 		logger.debug("Registered object provider: "

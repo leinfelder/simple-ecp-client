@@ -18,10 +18,12 @@ package ecp.liberty.paos;
 
 import javax.xml.namespace.QName;
 
-import org.opensaml.saml.common.SAMLObject;
-import org.opensaml.saml.common.xml.SAMLConstants;
-import org.opensaml.soap.soap11.ActorBearing;
-import org.opensaml.soap.soap11.MustUnderstandBearing;
+import org.opensaml.common.SAMLObject;
+import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.ws.soap.soap11.ActorBearing;
+import org.opensaml.ws.soap.soap11.MustUnderstandBearing;
+
+
 
 /**
  * Liberty Alliance PAOS Request header.

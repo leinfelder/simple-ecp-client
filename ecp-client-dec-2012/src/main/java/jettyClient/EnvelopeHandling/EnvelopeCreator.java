@@ -21,13 +21,13 @@ import java.security.SecureRandom;
 
 import jettyClient.parser.ParseHelper;
 import jettyClient.simpleClient.ClientConfiguration;
-import net.shibboleth.utilities.java.support.xml.ElementSupport;
 
-import org.opensaml.soap.soap11.Body;
-import org.opensaml.soap.soap11.Envelope;
-import org.opensaml.soap.soap11.Fault;
-import org.opensaml.soap.soap11.FaultCode;
-import org.opensaml.soap.util.SOAPHelper;
+import org.opensaml.ws.soap.soap11.Body;
+import org.opensaml.ws.soap.soap11.Envelope;
+import org.opensaml.ws.soap.soap11.Fault;
+import org.opensaml.ws.soap.soap11.FaultCode;
+import org.opensaml.ws.soap.util.SOAPHelper;
+import org.opensaml.xml.util.XMLHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -53,7 +53,7 @@ public class EnvelopeCreator {
 		Element envelopeElement = ParseHelper.marshall(buildEnvelope());
 		Element bodyElement = ParseHelper.marshall(envelopeParts.getBody());
 
-		ElementSupport.appendChildElement(envelopeElement, bodyElement);
+		XMLHelper.appendChildElement(envelopeElement, bodyElement);
 		Envelope envelope = (Envelope) ParseHelper.unmarshall(envelopeElement);
 
 		return envelope;
@@ -71,7 +71,7 @@ public class EnvelopeCreator {
 		Element envelopeElement = ParseHelper.marshall(buildEnvelope());
 		Element bodyElement = ParseHelper.marshall(body);
 
-		ElementSupport.appendChildElement(envelopeElement, bodyElement);
+		XMLHelper.appendChildElement(envelopeElement, bodyElement);
 
 		Envelope envelope = (Envelope) ParseHelper.unmarshall(envelopeElement);
 		envelope.setHeader(HeaderCreator.buildEcpToSpHeader()); // set PAOS header
@@ -119,8 +119,8 @@ public class EnvelopeCreator {
 		Element bodyElement = ParseHelper.marshall(envelopeParts.getBody());
 		Element headerElement = ParseHelper.marshall(envelopeParts.getHeader());
 
-		ElementSupport.appendChildElement(envelopeElement, headerElement);
-		ElementSupport.appendChildElement(envelopeElement, bodyElement);
+		XMLHelper.appendChildElement(envelopeElement, headerElement);
+		XMLHelper.appendChildElement(envelopeElement, bodyElement);
 
 		Envelope envelope = (Envelope) ParseHelper.unmarshall(envelopeElement);
 
